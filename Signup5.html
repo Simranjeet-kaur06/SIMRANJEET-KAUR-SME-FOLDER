@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Validation Form</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+    h2 {
+      text-align: center;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      text-align: center;
+    }
+    input {
+      padding: 8px;
+      margin: 5px;
+      width: 250px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="C:/Users/HP/OneDrive/Pictures/Screenshots/Screenshot (160).png" alt="LTSU" width="200">
+
+  <h1>VALIDATION FORM</h1>
+  <h2>LAMRIN TECH SKILLS UNIVERSITY</h2>
+
+  <form onsubmit="return check()">
+    <input id="name" placeholder="Name"><br><br>
+    <input id="ROLLno" placeholder="ROLL NO"><br><br>
+    <input id="email" type="email" placeholder="Email"><br><br>
+    <input id="pass" type="password" placeholder="Password"><br><br>
+    <input id="cpass" type="password" placeholder="Confirm Password"><br><br>
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <script>
+    function check() {
+      let n = document.getElementById("name").value;
+      let e = document.getElementById("email").value;
+      let p = document.getElementById("pass").value;
+      let c = document.getElementById("class").value;
+      let r = document.getElementById("ROLLno").value;
+
+      if (n === "" || e === "" || p === "" || r === "") {
+        alert("Fill all fields");
+      } else if (p.length < 8) {
+        alert("Password must be at least 8 characters");
+      } else if (p !== c) {
+        alert("Passwords do not match");
+      } else {
+        alert("Sign Up Successful");
+      }
+
+      return false; // prevents form submission for demo purposes
+    }
+  </script>
+
+</body>
+</html>

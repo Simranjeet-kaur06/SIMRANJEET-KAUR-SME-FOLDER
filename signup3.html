@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function validation() {
+    // 1. Fixed the form name to match the HTML ("myForm")
+    let name = document.forms["myForm"]["sname"].value;
+    let rollno = document.forms["myForm"]["srollno"].value;
+    
+    // 2. Changed && to || so it checks if EITHER field is empty
+    if (name == "" || rollno == "") {
+        alert("Name and rollno must be filled out");
+        return false;
+    } 
+    // 3. Added an alert and return false to make this validation work
+    else if (name.length < 2) {
+        alert("Name must be at least 2 characters long");
+        return false;
+    }
+    
+    return true;
+}
+</script>
+</head>
+<body>
+
+<h2>JavaScript Validation</h2>
+
+<!-- 4. Removed the stray "validateFor" text -->
+<form name="myForm" onsubmit="return validation()" method="post">
+    <input type="text" placeholder="enter name" name="sname">
+    <input type="text" placeholder="enter rollno" name="srollno">
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

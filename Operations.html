@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Simple Calculator</h2>
+
+<input type="number" id="n1" placeholder="First number">
+<br><br>
+
+<input type="number" id="n2" placeholder="Second number">
+<br><br>
+
+<select id="op">
+    <option value="+">Addition (+)</option>
+    <option value="-">Subtraction (-)</option>
+    <option value="*">Multiplication (*)</option>
+    <option value="/">Division (/)</option>
+</select>
+
+<button onclick="calculate()">Calculate</button>
+<p id="result"></p>
+
+<script>
+function calculate() {
+    let a = document.getElementById("n1").value;
+    let b = document.getElementById("n2").value;
+    let op = document.getElementById("op").value;
+    let result;
+
+    if (a === "" || b === "") {
+        result = "Enter both numbers";
+    }
+    else {
+        a = Number(a);
+        b = Number(b);
+
+        switch (op) {
+            case "+":
+                result = a + b;
+                break;
+
+            case "-":
+                result = a - b;
+                break;
+
+            case "*":
+                result = a * b;
+                break;
+
+            case "/":
+                if (b == 0) {
+                    result = "Cannot divide by zero";
+                }
+                else {
+                    result = a / b;
+                }
+                break;
+        }
+    }
+
+    document.getElementById("result").innerHTML =
+        "Result: " + result;
+}
+</script>
+</body>
+</html>

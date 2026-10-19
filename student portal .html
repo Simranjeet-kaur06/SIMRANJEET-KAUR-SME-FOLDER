@@ -1,0 +1,991 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Portal</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #edf4fa;
+    color: #243447;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 230px;
+    background: #064e46;
+    color: white;
+    padding: 22px 12px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 5px 0 28px;
+    padding: 8px;
+}
+
+.nav-btn {
+    display: block;
+    width: 100%;
+    padding: 13px 12px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: white;
+    text-align: left;
+    margin: 5px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #119b72;
+}
+
+main {
+    flex: 1;
+    min-width: 0;
+    padding: 26px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+h1 {
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.subtitle {
+    color: #708090;
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.stat h3 {
+    font-size: 14px;
+    margin-bottom: 13px;
+}
+
+.stat p {
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.blue { background: #1976ed; }
+.green { background: #119b72; }
+.orange { background: #ef9410; }
+.purple { background: #7646db; }
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px #00000008;
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary {
+    background: #119b72;
+    color: white;
+}
+
+.primary:hover { background: #087f5b; }
+
+.danger {
+    background: #e84d59;
+    color: white;
+}
+
+.secondary {
+    background: #e4eaf0;
+    color: #243447;
+}
+
+.small {
+    padding: 7px 10px;
+    margin: 2px;
+    font-size: 12px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 13px 10px;
+    border-bottom: 1px solid #e6edf3;
+    font-size: 13px;
+}
+
+th {
+    background: #f3f7fa;
+    color: #405267;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d4dee8;
+    border-radius: 5px;
+    font-size: 14px;
+    background: white;
+}
+
+input:focus, select:focus {
+    outline: 2px solid #b8eddd;
+    border-color: #119b72;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+}
+
+.search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-row input {
+    flex: 1;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 15px;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 12px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.empty {
+    padding: 25px;
+    text-align: center;
+    color: #7b8998;
+}
+
+.profile {
+    border: 1px solid #c5e4db;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: #d7f5eb;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.profile p {
+    margin: 9px 0;
+    font-size: 14px;
+}
+
+@media(max-width: 900px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    main {
+        padding: 18px;
+    }
+}
+
+@media(max-width: 600px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .logo {
+        margin: 5px 0 10px;
+    }
+
+    .nav-btn {
+        width: auto;
+        display: inline-block;
+        margin: 2px;
+    }
+
+    main {
+        padding: 14px;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        grid-column: 1;
+    }
+
+    .stats {
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 14px;
+    }
+
+    .profile {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="logo">🎓 Student Portal</div>
+
+    <button class="nav-btn active" data-page="dashboard">
+        ⌂ Dashboard
+    </button>
+
+    <button class="nav-btn" data-page="add">
+        ＋ Add Student
+    </button>
+
+    <button class="nav-btn" data-page="students">
+        ♟ Students
+    </button>
+
+    <button class="nav-btn" data-page="search">
+        ⌕ Search Student
+    </button>
+
+    <button class="nav-btn" data-page="delete">
+        ▣ Delete Student
+    </button>
+</aside>
+
+<main>
+
+<header>
+    <div>
+        <h1 id="pageTitle">Student Dashboard</h1>
+        <p class="subtitle">Manage student records easily.</p>
+    </div>
+
+    <button class="primary" id="headerAdd">
+        + Add Student
+    </button>
+</header>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page">
+
+    <div class="stats">
+
+        <div class="stat blue">
+            <h3>Total Students</h3>
+            <p id="totalCount">0</p>
+        </div>
+
+        <div class="stat green">
+            <h3>Active Students</h3>
+            <p id="activeCount">0</p>
+        </div>
+
+        <div class="stat orange">
+            <h3>Male Students</h3>
+            <p id="maleCount">0</p>
+        </div>
+
+        <div class="stat purple">
+            <h3>Female Students</h3>
+            <p id="femaleCount">0</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h2>Recent Students</h2>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="dashboardTable"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ADD STUDENT FORM -->
+<section id="add" class="page hidden">
+
+    <div class="card">
+        <h2 id="formTitle">Add New Student</h2>
+
+        <form id="studentForm">
+
+            <div class="field">
+                <label for="name">Student Name *</label>
+                <input id="name" required minlength="3"
+                       placeholder="Enter student name">
+            </div>
+
+            <div class="field">
+                <label for="phone">Phone Number *</label>
+                <input id="phone" type="tel" required
+                       pattern="[0-9]{10}" maxlength="10"
+                       placeholder="10-digit phone number">
+            </div>
+
+            <div class="field">
+                <label for="email">Email Address *</label>
+                <input id="email" type="email" required
+                       placeholder="Enter email address">
+            </div>
+
+            <div class="field">
+                <label for="gender">Gender *</label>
+                <select id="gender" required>
+                    <option value="">Select gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="course">Course *</label>
+                <select id="course" required>
+                    <option value="">Select course</option>
+                    <option>B.Tech CSE</option>
+                    <option>B.Tech ECE</option>
+                    <option>B.Sc CS</option>
+                    <option>BCA</option>
+                    <option>BBA</option>
+                    <option>MCA</option>
+                    <option>MBA</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="dob">Date of Birth *</label>
+                <input id="dob" type="date" required>
+            </div>
+
+            <div class="field">
+                <label for="status">Student Status *</label>
+                <select id="status" required>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="primary" id="saveButton">
+                    Save Student
+                </button>
+
+                <button type="reset" class="secondary">
+                    Reset
+                </button>
+
+                <button type="button" id="cancelEdit"
+                        class="secondary hidden">
+                    Cancel
+                </button>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<!-- STUDENT LIST -->
+<section id="students" class="page hidden">
+
+    <div class="card">
+        <h2>All Students</h2>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- SEARCH STUDENT -->
+<section id="search" class="page hidden">
+
+    <div class="card">
+        <h2>Search Student</h2>
+
+        <div class="search-row">
+            <input id="searchInput"
+                   placeholder="Enter student name, email, or ID">
+
+            <button class="primary" id="searchButton">
+                Search
+            </button>
+        </div>
+
+        <div id="searchResult">
+            <p class="empty">Enter student details to search.</p>
+        </div>
+    </div>
+</section>
+
+<!-- DELETE STUDENT -->
+<section id="delete" class="page hidden">
+
+    <div class="card">
+        <h2>Delete Student</h2>
+
+        <p class="subtitle">
+            Delete unwanted student records after confirmation.
+        </p>
+
+        <br>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="deleteTable"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+</main>
+</div>
+
+<script>
+
+// Sample student records
+const sampleStudents = [
+    {
+        id: 1,
+        name: "Aditi Sharma",
+        phone: "9876543210",
+        email: "aditi@stu.com",
+        gender: "Female",
+        course: "B.Tech CSE",
+        dob: "2005-04-12",
+        status: "Active"
+    },
+    {
+        id: 2,
+        name: "Rohan Mehta",
+        phone: "9876543211",
+        email: "rohan@stu.com",
+        gender: "Male",
+        course: "B.Tech ECE",
+        dob: "2004-08-15",
+        status: "Active"
+    },
+    {
+        id: 3,
+        name: "Sneha Patel",
+        phone: "9876543212",
+        email: "sneha@stu.com",
+        gender: "Female",
+        course: "B.Sc CS",
+        dob: "2005-01-20",
+        status: "Active"
+    },
+    {
+        id: 4,
+        name: "Arjun Singh",
+        phone: "9876543213",
+        email: "arjun@stu.com",
+        gender: "Male",
+        course: "BCA",
+        dob: "2004-10-05",
+        status: "Active"
+    },
+    {
+        id: 5,
+        name: "Karan Verma",
+        phone: "9876543214",
+        email: "karan@stu.com",
+        gender: "Male",
+        course: "B.Tech CSE",
+        dob: "2005-06-17",
+        status: "Active"
+    }
+];
+
+let students;
+
+try {
+    const saved = localStorage.getItem("studentRecords");
+    students = saved ? JSON.parse(saved) : sampleStudents;
+
+    if (!Array.isArray(students)) {
+        students = sampleStudents;
+    }
+} catch (error) {
+    students = sampleStudents;
+}
+
+let editingId = null;
+
+const $ = id => document.getElementById(id);
+
+// Save students in browser storage
+function saveData() {
+    localStorage.setItem("studentRecords", JSON.stringify(students));
+}
+
+// Protect text displayed in HTML
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+// Change application pages
+function showPage(page) {
+
+    document.querySelectorAll(".page").forEach(section => {
+        section.classList.toggle("hidden", section.id !== page);
+    });
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+        button.classList.toggle(
+            "active",
+            button.dataset.page === page
+        );
+    });
+
+    const titles = {
+        dashboard: "Student Dashboard",
+        add: editingId ? "Update Student" : "Add New Student",
+        students: "Student List",
+        search: "Search Student",
+        delete: "Delete Student"
+    };
+
+    $("pageTitle").textContent = titles[page];
+    $("headerAdd").classList.toggle("hidden", page === "add");
+
+    renderAll();
+}
+
+// Navigation buttons
+document.querySelectorAll(".nav-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        showPage(button.dataset.page);
+    });
+});
+
+$("headerAdd").addEventListener("click", startAdd);
+
+// Open a fresh student form
+function startAdd() {
+    editingId = null;
+    $("studentForm").reset();
+
+    $("formTitle").textContent = "Add New Student";
+    $("saveButton").textContent = "Save Student";
+    $("cancelEdit").classList.add("hidden");
+
+    showPage("add");
+}
+
+// Update dashboard statistics
+function renderStats() {
+    $("totalCount").textContent = students.length;
+
+    $("activeCount").textContent =
+        students.filter(s => s.status === "Active").length;
+
+    $("maleCount").textContent =
+        students.filter(s => s.gender === "Male").length;
+
+    $("femaleCount").textContent =
+        students.filter(s => s.gender === "Female").length;
+}
+
+// Generate edit and delete buttons
+function actionButtons(student) {
+    return `
+        <button class="primary small"
+            onclick="editStudent(${student.id})">Edit</button>
+
+        <button class="danger small"
+            onclick="deleteStudent(${student.id})">Delete</button>
+    `;
+}
+
+// Display student table rows
+function renderRows(targetId, showActions = true) {
+    const target = $(targetId);
+
+    if (!students.length) {
+        target.innerHTML =
+            '<tr><td colspan="6" class="empty">No students found.</td></tr>';
+        return;
+    }
+
+    target.innerHTML = students.map(s => `
+        <tr>
+            <td>${s.id}</td>
+            <td>${escapeHTML(s.name)}</td>
+            <td>${escapeHTML(s.course)}</td>
+            <td>${escapeHTML(s.email)}</td>
+            <td>
+                <span class="badge">
+                    ${escapeHTML(s.status)}
+                </span>
+            </td>
+
+            ${showActions
+                ? `<td>${actionButtons(s)}</td>`
+                : ""}
+        </tr>
+    `).join("");
+}
+
+// Display delete table
+function renderDeleteTable() {
+    const target = $("deleteTable");
+
+    if (!students.length) {
+        target.innerHTML =
+            '<tr><td colspan="5" class="empty">No students found.</td></tr>';
+        return;
+    }
+
+    target.innerHTML = students.map(s => `
+        <tr>
+            <td>${s.id}</td>
+            <td>${escapeHTML(s.name)}</td>
+            <td>${escapeHTML(s.course)}</td>
+            <td>${escapeHTML(s.email)}</td>
+            <td>
+                <button class="danger small"
+                    onclick="deleteStudent(${s.id})">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    `).join("");
+}
+
+// Refresh all tables and statistics
+function renderAll() {
+    renderStats();
+    renderRows("dashboardTable", false);
+    renderRows("studentTable", true);
+    renderDeleteTable();
+}
+
+// Add or update a student
+$("studentForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const student = {
+        name: $("name").value.trim(),
+        phone: $("phone").value.trim(),
+        email: $("email").value.trim(),
+        gender: $("gender").value,
+        course: $("course").value,
+        dob: $("dob").value,
+        status: $("status").value
+    };
+
+    if (student.name.length < 3) {
+        alert("Student name must have at least 3 characters.");
+        return;
+    }
+
+    if (!/^[0-9]{10}$/.test(student.phone)) {
+        alert("Enter a valid 10-digit phone number.");
+        return;
+    }
+
+    const duplicate = students.some(s =>
+        s.email.toLowerCase() === student.email.toLowerCase()
+        && s.id !== editingId
+    );
+
+    if (duplicate) {
+        alert("This email is already registered.");
+        return;
+    }
+
+    if (student.dob > new Date().toISOString().slice(0, 10)) {
+        alert("Date of birth cannot be in the future.");
+        return;
+    }
+
+    if (editingId !== null) {
+
+        const index = students.findIndex(s => s.id === editingId);
+
+        if (index !== -1) {
+            students[index] = {
+                ...students[index],
+                ...student
+            };
+        }
+
+        alert("Student updated successfully!");
+
+    } else {
+
+        const newId = students.length
+            ? Math.max(...students.map(s => Number(s.id))) + 1
+            : 1;
+
+        students.push({
+            id: newId,
+            ...student
+        });
+
+        alert("Student added successfully!");
+    }
+
+    saveData();
+
+    editingId = null;
+    $("studentForm").reset();
+
+    $("formTitle").textContent = "Add New Student";
+    $("saveButton").textContent = "Save Student";
+    $("cancelEdit").classList.add("hidden");
+
+    showPage("students");
+});
+
+// Edit an existing student
+function editStudent(id) {
+
+    const s = students.find(student => student.id === id);
+
+    if (!s) return;
+
+    editingId = id;
+
+    $("name").value = s.name;
+    $("phone").value = s.phone;
+    $("email").value = s.email;
+    $("gender").value = s.gender;
+    $("course").value = s.course;
+    $("dob").value = s.dob;
+    $("status").value = s.status;
+
+    $("formTitle").textContent = "Update Student";
+    $("saveButton").textContent = "Update Student";
+    $("cancelEdit").classList.remove("hidden");
+
+    showPage("add");
+}
+
+// Cancel editing
+$("cancelEdit").addEventListener("click", startAdd);
+
+// Delete student with confirmation
+function deleteStudent(id) {
+
+    const student = students.find(s => s.id === id);
+
+    if (!student) return;
+
+    if (confirm("Delete student " + student.name + "?")) {
+
+        students = students.filter(s => s.id !== id);
+
+        saveData();
+        renderAll();
+
+        $("searchResult").innerHTML =
+            '<p class="empty">Search for a student.</p>';
+
+        alert("Student deleted successfully!");
+    }
+}
+
+// Search by name, email, or student ID
+function searchStudent() {
+
+    const query = $("searchInput").value.trim().toLowerCase();
+
+    if (!query) {
+        $("searchResult").innerHTML =
+            '<p class="empty">Enter a student name, email, or ID.</p>';
+        return;
+    }
+
+    const results = students.filter(s =>
+        s.name.toLowerCase().includes(query) ||
+        s.email.toLowerCase().includes(query) ||
+        String(s.id) === query
+    );
+
+    if (!results.length) {
+        $("searchResult").innerHTML =
+            '<p class="empty">No matching student found.</p>';
+        return;
+    }
+
+    $("searchResult").innerHTML = results.map(s => `
+        <div class="profile">
+            <div class="avatar">👤</div>
+
+            <div>
+                <h3>${escapeHTML(s.name)}</h3>
+
+                <p><b>Student ID:</b> ${s.id}</p>
+                <p><b>Email:</b> ${escapeHTML(s.email)}</p>
+                <p><b>Phone:</b> ${escapeHTML(s.phone)}</p>
+                <p><b>Gender:</b> ${escapeHTML(s.gender)}</p>
+                <p><b>Course:</b> ${escapeHTML(s.course)}</p>
+                <p><b>Date of Birth:</b> ${escapeHTML(s.dob)}</p>
+                <p><b>Status:</b> ${escapeHTML(s.status)}</p>
+
+                <br>
+                ${actionButtons(s)}
+            </div>
+        </div>
+    `).join("");
+}
+
+$("searchButton").addEventListener("click", searchStudent);
+
+$("searchInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        searchStudent();
+    }
+});
+
+// Initialize application
+saveData();
+renderAll();
+
+</script>
+</body>
+</html>

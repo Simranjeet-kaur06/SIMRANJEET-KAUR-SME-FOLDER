@@ -1,0 +1,778 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Management System</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #eef4fa;
+    color: #243447;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 235px;
+    background: #142b3e;
+    color: white;
+    padding: 22px 14px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 5px 0 28px;
+    padding: 8px;
+}
+
+.nav-btn {
+    width: 100%;
+    padding: 13px 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #1976ed;
+}
+
+main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+h1 {
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.subtitle {
+    color: #6b7c8e;
+    font-size: 14px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 3px 10px #00000010;
+}
+
+.stat h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.stat p {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.blue { background: #1976ed; }
+.green { background: #119b72; }
+.orange { background: #ef9410; }
+.purple { background: #7646db; }
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px #00000008;
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-weight: 600;
+}
+
+.primary {
+    background: #1976ed;
+    color: white;
+}
+
+.primary:hover { background: #105fc5; }
+
+.danger {
+    background: #e84d59;
+    color: white;
+}
+
+.secondary {
+    background: #e5ebf1;
+    color: #243447;
+}
+
+.small {
+    padding: 7px 10px;
+    margin: 2px;
+    font-size: 12px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+
+th, td {
+    text-align: left;
+    padding: 14px 10px;
+    border-bottom: 1px solid #e6edf3;
+    font-size: 13px;
+}
+
+th {
+    background: #f5f8fb;
+    color: #405267;
+}
+
+tr:hover td { background: #f9fbfd; }
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    padding: 12px;
+    border: 1px solid #d4dee8;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
+    background: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #b9d8ff;
+    border-color: #1976ed;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+}
+
+.search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-row input { flex: 1; }
+
+.profile {
+    border: 1px solid #c6ddf5;
+    border-radius: 8px;
+    padding: 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.avatar {
+    width: 65px;
+    height: 65px;
+    background: #dceaff;
+    color: #1976ed;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.profile p { margin: 10px 0; font-size: 14px; }
+
+.badge {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.hidden { display: none !important; }
+
+.empty {
+    text-align: center;
+    color: #7a8999;
+    padding: 30px;
+}
+
+@media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    main { padding: 18px; }
+}
+
+@media (max-width: 600px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; padding: 12px; }
+    .logo { margin: 5px 0 10px; }
+    .nav-btn { width: auto; margin: 2px; }
+    main { padding: 14px; }
+    form { grid-template-columns: 1fr; }
+    .form-actions { grid-column: 1; }
+    .stats { gap: 10px; }
+    .stat { padding: 14px; }
+    .profile { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="logo">👥 Employee System</div>
+    <button class="nav-btn active" data-page="dashboard">⌂ Dashboard</button>
+    <button class="nav-btn" data-page="add">＋ Add Employee</button>
+    <button class="nav-btn" data-page="employees">♟ Employees</button>
+    <button class="nav-btn" data-page="search">⌕ Search Employee</button>
+    <button class="nav-btn" data-page="delete">▣ Delete Employee</button>
+</aside>
+
+<main>
+    <header>
+        <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p class="subtitle">Manage your employees in one place.</p>
+        </div>
+        <button class="primary" id="headerAdd">+ Add Employee</button>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page">
+        <div class="stats">
+            <div class="stat blue">
+                <h3>Total Employees</h3>
+                <p id="totalCount">0</p>
+            </div>
+            <div class="stat green">
+                <h3>IT Department</h3>
+                <p id="itCount">0</p>
+            </div>
+            <div class="stat orange">
+                <h3>HR Department</h3>
+                <p id="hrCount">0</p>
+            </div>
+            <div class="stat purple">
+                <h3>Other Departments</h3>
+                <p id="otherCount">0</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Recent Employees</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Name</th><th>Email</th>
+                            <th>Department</th><th>Salary</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboardTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- EMPLOYEE LIST -->
+    <section id="employees" class="page hidden">
+        <div class="card">
+            <h2>Employee List</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Name</th><th>Email</th>
+                            <th>Department</th><th>Salary</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADD / UPDATE FORM -->
+    <section id="add" class="page hidden">
+        <div class="card">
+            <h2 id="formTitle">Add New Employee</h2>
+
+            <form id="employeeForm">
+                <div class="field">
+                    <label for="name">Full Name *</label>
+                    <input id="name" required minlength="3"
+                           placeholder="Enter employee name">
+                </div>
+
+                <div class="field">
+                    <label for="phone">Phone Number *</label>
+                    <input id="phone" type="tel" required
+                           pattern="[0-9]{10}"
+                           maxlength="10"
+                           placeholder="10-digit phone number">
+                </div>
+
+                <div class="field">
+                    <label for="email">Email Address *</label>
+                    <input id="email" type="email" required
+                           placeholder="Enter email address">
+                </div>
+
+                <div class="field">
+                    <label for="salary">Monthly Salary (₹) *</label>
+                    <input id="salary" type="number" min="0"
+                           step="0.01" required placeholder="Enter salary">
+                </div>
+
+                <div class="field">
+                    <label for="department">Department *</label>
+                    <select id="department" required>
+                        <option value="">Select department</option>
+                        <option>IT</option>
+                        <option>HR</option>
+                        <option>Finance</option>
+                        <option>Marketing</option>
+                        <option>Operations</option>
+                        <option>Sales</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="joiningDate">Joining Date *</label>
+                    <input id="joiningDate" type="date" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary" id="saveButton">
+                        Save Employee
+                    </button>
+                    <button type="reset" class="secondary">Reset</button>
+                    <button type="button" class="secondary hidden"
+                            id="cancelEdit">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- SEARCH EMPLOYEE -->
+    <section id="search" class="page hidden">
+        <div class="card">
+            <h2>Search Employee</h2>
+            <div class="search-row">
+                <input id="searchInput"
+                       placeholder="Enter name, email, or employee ID">
+                <button class="primary" id="searchButton">⌕ Search</button>
+            </div>
+            <div id="searchResult">
+                <p class="empty">Enter employee details to search.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DELETE EMPLOYEE -->
+    <section id="delete" class="page hidden">
+        <div class="card">
+            <h2>Delete Employee</h2>
+            <p class="subtitle">
+                Select an employee record and click Delete.
+                You will be asked to confirm before removal.
+            </p>
+            <br>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Name</th><th>Email</th>
+                            <th>Department</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deleteTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+</div>
+
+<script>
+// Load saved employees or create sample records.
+const sampleEmployees = [
+    {id:1, name:"Sakshi Sharma", email:"sakshi@company.com",
+     phone:"9876543210", department:"IT", salary:50000,
+     joiningDate:"2025-01-10"},
+    {id:2, name:"Rohit Kumar", email:"rohit@company.com",
+     phone:"9876543211", department:"HR", salary:45000,
+     joiningDate:"2025-02-15"},
+    {id:3, name:"Neha Verma", email:"neha@company.com",
+     phone:"9876543212", department:"Finance", salary:52000,
+     joiningDate:"2025-03-05"},
+    {id:4, name:"Amit Singh", email:"amit@company.com",
+     phone:"9876543213", department:"Marketing", salary:48000,
+     joiningDate:"2025-04-20"},
+    {id:5, name:"Priya Gupta", email:"priya@company.com",
+     phone:"9876543214", department:"Operations", salary:42000,
+     joiningDate:"2025-05-12"}
+];
+
+let employees;
+try {
+    const saved = localStorage.getItem("employeeRecords");
+    employees = saved ? JSON.parse(saved) : sampleEmployees;
+    if (!Array.isArray(employees)) employees = sampleEmployees;
+} catch (error) {
+    employees = sampleEmployees;
+}
+
+let editingId = null;
+
+const $ = id => document.getElementById(id);
+
+function saveData() {
+    localStorage.setItem("employeeRecords", JSON.stringify(employees));
+}
+
+function money(amount) {
+    return "₹" + Number(amount).toLocaleString("en-IN");
+}
+
+// Switch between application pages.
+function showPage(page) {
+    document.querySelectorAll(".page").forEach(section => {
+        section.classList.toggle("hidden", section.id !== page);
+    });
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    const titles = {
+        dashboard:"Employee Dashboard",
+        add: editingId ? "Update Employee" : "Add New Employee",
+        employees:"Employee List",
+        search:"Search Employee",
+        delete:"Delete Employee"
+    };
+
+    $("pageTitle").textContent = titles[page];
+    $("headerAdd").classList.toggle("hidden", page === "add");
+    renderAll();
+}
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+$("headerAdd").addEventListener("click", () => startAdd());
+
+function startAdd() {
+    editingId = null;
+    $("employeeForm").reset();
+    $("formTitle").textContent = "Add New Employee";
+    $("saveButton").textContent = "Save Employee";
+    $("cancelEdit").classList.add("hidden");
+    showPage("add");
+}
+
+function renderStats() {
+    $("totalCount").textContent = employees.length;
+    $("itCount").textContent =
+        employees.filter(e => e.department === "IT").length;
+    $("hrCount").textContent =
+        employees.filter(e => e.department === "HR").length;
+    $("otherCount").textContent =
+        employees.filter(e => !["IT","HR"].includes(e.department)).length;
+}
+
+function actionButtons(employee) {
+    return `
+        <button class="primary small"
+                onclick="editEmployee(${employee.id})">Edit</button>
+        <button class="danger small"
+                onclick="deleteEmployee(${employee.id})">Delete</button>
+    `;
+}
+
+function renderEmployeeRows(targetId, includeActions = true) {
+    const target = $(targetId);
+
+    if (!employees.length) {
+        target.innerHTML = `
+            <tr><td colspan="6" class="empty">No employees found.</td></tr>`;
+        return;
+    }
+
+    target.innerHTML = employees.map(e => `
+        <tr>
+            <td>${e.id}</td>
+            <td>${escapeHTML(e.name)}</td>
+            <td>${escapeHTML(e.email)}</td>
+            <td>${escapeHTML(e.department)}</td>
+            <td>${money(e.salary)}</td>
+            ${includeActions
+                ? `<td>${actionButtons(e)}</td>`
+                : ""}
+        </tr>
+    `).join("");
+}
+
+function renderDeleteTable() {
+    const target = $("deleteTable");
+
+    if (!employees.length) {
+        target.innerHTML =
+            '<tr><td colspan="5" class="empty">No employees found.</td></tr>';
+        return;
+    }
+
+    target.innerHTML = employees.map(e => `
+        <tr>
+            <td>${e.id}</td>
+            <td>${escapeHTML(e.name)}</td>
+            <td>${escapeHTML(e.email)}</td>
+            <td>${escapeHTML(e.department)}</td>
+            <td>
+                <button class="danger small"
+                    onclick="deleteEmployee(${e.id})">Delete</button>
+            </td>
+        </tr>
+    `).join("");
+}
+
+// Prevent employee-entered text from being interpreted as HTML.
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    })[character]);
+}
+
+function renderAll() {
+    renderStats();
+    renderEmployeeRows("dashboardTable");
+    renderEmployeeRows("employeeTable");
+    renderDeleteTable();
+}
+
+// Add a new employee or update an existing employee.
+$("employeeForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const employee = {
+        name: $("name").value.trim(),
+        phone: $("phone").value.trim(),
+        email: $("email").value.trim(),
+        salary: Number($("salary").value),
+        department: $("department").value,
+        joiningDate: $("joiningDate").value
+    };
+
+    if (employee.name.length < 3) {
+        alert("Name must contain at least 3 characters.");
+        return;
+    }
+
+    if (!/^[0-9]{10}$/.test(employee.phone)) {
+        alert("Enter a valid 10-digit phone number.");
+        return;
+    }
+
+    if (!Number.isFinite(employee.salary) || employee.salary < 0) {
+        alert("Enter a valid salary.");
+        return;
+    }
+
+    const duplicate = employees.some(e =>
+        e.email.toLowerCase() === employee.email.toLowerCase()
+        && e.id !== editingId
+    );
+
+    if (duplicate) {
+        alert("This email address is already registered.");
+        return;
+    }
+
+    if (editingId !== null) {
+        const index = employees.findIndex(e => e.id === editingId);
+        if (index !== -1) {
+            employees[index] = {...employees[index], ...employee};
+        }
+        alert("Employee updated successfully!");
+    } else {
+        const newId = employees.length
+            ? Math.max(...employees.map(e => Number(e.id))) + 1
+            : 1;
+
+        employees.push({id:newId, ...employee});
+        alert("Employee added successfully!");
+    }
+
+    saveData();
+    editingId = null;
+    $("employeeForm").reset();
+    $("formTitle").textContent = "Add New Employee";
+    $("saveButton").textContent = "Save Employee";
+    $("cancelEdit").classList.add("hidden");
+    showPage("employees");
+});
+
+// Edit employee details.
+function editEmployee(id) {
+    const e = employees.find(employee => employee.id === id);
+    if (!e) return;
+
+    editingId = id;
+    $("name").value = e.name;
+    $("phone").value = e.phone;
+    $("email").value = e.email;
+    $("salary").value = e.salary;
+    $("department").value = e.department;
+    $("joiningDate").value = e.joiningDate;
+
+    $("formTitle").textContent = "Update Employee";
+    $("saveButton").textContent = "Update Employee";
+    $("cancelEdit").classList.remove("hidden");
+    showPage("add");
+}
+
+$("cancelEdit").addEventListener("click", startAdd);
+
+$("employeeForm").addEventListener("reset", function() {
+    // Reset the form fields without deleting saved employee records.
+});
+
+// Delete employee after confirmation.
+function deleteEmployee(id) {
+    const employee = employees.find(e => e.id === id);
+    if (!employee) return;
+
+    if (confirm("Delete employee " + employee.name + "?")) {
+        employees = employees.filter(e => e.id !== id);
+        saveData();
+        renderAll();
+        $("searchResult").innerHTML =
+            '<p class="empty">Search for an employee.</p>';
+        alert("Employee deleted successfully.");
+    }
+}
+
+// Search by name, email, or ID.
+function searchEmployee() {
+    const query = $("searchInput").value.trim().toLowerCase();
+
+    if (!query) {
+        $("searchResult").innerHTML =
+            '<p class="empty">Please enter a name, email, or ID.</p>';
+        return;
+    }
+
+    const results = employees.filter(e =>
+        e.name.toLowerCase().includes(query) ||
+        e.email.toLowerCase().includes(query) ||
+        String(e.id) === query
+    );
+
+    if (!results.length) {
+        $("searchResult").innerHTML =
+            '<p class="empty">No matching employee found.</p>';
+        return;
+    }
+
+    $("searchResult").innerHTML = results.map(e => `
+        <div class="profile" style="margin-bottom:12px">
+            <div class="avatar">👤</div>
+            <div>
+                <h3>${escapeHTML(e.name)}</h3>
+                <p><b>Employee ID:</b> ${e.id}</p>
+                <p><b>Email:</b> ${escapeHTML(e.email)}</p>
+                <p><b>Phone:</b> ${escapeHTML(e.phone)}</p>
+                <p><b>Department:</b> ${escapeHTML(e.department)}</p>
+                <p><b>Salary:</b> ${money(e.salary)}</p>
+                <p><b>Joining Date:</b> ${escapeHTML(e.joiningDate)}</p>
+                <br>${actionButtons(e)}
+            </div>
+        </div>
+    `).join("");
+}
+
+$("searchButton").addEventListener("click", searchEmployee);
+
+$("searchInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") searchEmployee();
+});
+
+// Display the initial dashboard.
+saveData();
+renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Display Vowels</h2>
+
+<script>
+let input = prompt("Enter characters:");
+let vowels = "aeiouAEIOU";
+
+document.write("Entered characters: " + input + "<br>");
+document.write("Vowels: ");
+
+for (let i = 0; i < input.length; i++) {
+    if (vowels.includes(input[i])) {
+        document.write(input[i] + " ");
+    }
+}
+</script>
+
+</body>
+</html>

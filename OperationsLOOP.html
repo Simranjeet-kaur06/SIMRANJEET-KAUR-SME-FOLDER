@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator with Repeat Option</title>
+</head>
+<body>
+  <h3>Calculator (+, -, *, /)</h3>
+  <button onclick="startCalculator()">Start Calculator</button>
+  <p id="result"></p>
+
+  <script>
+    function startCalculator() {
+      let repeat;  // variable to control loop
+
+      do {
+        // take two numbers
+        let num1 = parseFloat(prompt("Enter first number:"));
+        let num2 = parseFloat(prompt("Enter second number:"));
+
+        // take operation
+        let op = prompt("Enter operation (+, -, *, /):");
+
+        let res;
+        if (op === "+") {
+          res = num1 + num2;
+        } else if (op === "-") {
+          res = num1 - num2;
+        } else if (op === "*") {
+          res = num1 * num2;
+        } else if (op === "/") {
+          res = num1 / num2;
+        } else {
+          res = "Invalid operation!";
+        }
+
+        alert("Result = " + res);
+
+        // ask if user wants to repeat
+        repeat = prompt("Do you want to continue? (yes/no)");
+
+      } while (repeat && repeat.toLowerCase() === "yes");  // loop continues if yes
+
+      document.getElementById("result").innerText = "Calculator stopped.";
+    }
+  </script>
+</body>
+</html>

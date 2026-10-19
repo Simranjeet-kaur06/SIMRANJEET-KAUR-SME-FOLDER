@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Marks Calculator</title>
+</head>
+<body>
+  <h2>Student Marks Calculator</h2>
+
+  <!-- Input fields -->
+  <label>Name: </label>
+  <input type="text" id="name" placeholder="Enter student name"><br><br>
+
+  <label>Roll No: </label>
+  <input type="text" id="rollno" placeholder="Enter roll number"><br><br>
+
+  <label>Enter marks for 5 subjects:</label><br>
+  <input type="number" id="m1" placeholder="Subject 1"><br>
+  <input type="number" id="m2" placeholder="Subject 2"><br>
+  <input type="number" id="m3" placeholder="Subject 3"><br>
+  <input type="number" id="m4" placeholder="Subject 4"><br>
+  <input type="number" id="m5" placeholder="Subject 5"><br><br>
+
+  <!-- Button -->
+  <button onclick="calculate()">Calculate Result</button>
+
+  <!-- Output -->
+  <h3>Result:</h3>
+  <div id="details"></div>
+
+  <script>
+    function calculate() {
+      // Get values
+      let name = document.getElementById("name").value;
+      let rollno = document.getElementById("rollno").value;
+
+      let marks = [];
+      marks.push(parseInt(document.getElementById("m1").value));
+      marks.push(parseInt(document.getElementById("m2").value));
+      marks.push(parseInt(document.getElementById("m3").value));
+      marks.push(parseInt(document.getElementById("m4").value));
+      marks.push(parseInt(document.getElementById("m5").value));
+
+      // Calculate total using loop
+      let total = 0;
+      for (let i = 0; i < marks.length; i++) {
+        total += marks[i];
+      }
+
+      let percentage = total / marks.length;
+
+      // Grade calculation
+      let grade;
+      if (percentage >= 80) {
+        grade = "A";
+      } else if (percentage >= 60) {
+        grade = "B";
+      } else if (percentage >= 40) {
+        grade = "C";
+      } else {
+        grade = "Fail";
+      }
+
+      // Display result
+      let output = `
+        Name : ${name} <br>
+        Roll No : ${rollno} <br>
+        Marks : ${marks.join(", ")} <br>
+        Total Marks : ${total} <br>
+        Percentage : ${percentage}% <br>
+        Grade : ${grade}
+      `;
+
+      document.getElementById("details").innerHTML = output;
+    }
+  </script>
+</body>
+</html>

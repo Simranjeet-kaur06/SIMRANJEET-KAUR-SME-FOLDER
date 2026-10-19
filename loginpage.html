@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> LAMRIN TECH SKILLS UNIVERSITY , PUNJAB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #004080, #0066cc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+      width: 350px;
+    }
+    .login-box h2 {
+      text-align: center;
+      color: #004080;
+      margin-bottom: 25px;
+    }
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-box button:hover {
+      background-color: #0066cc;
+    }
+    .forgot {
+      text-align: right;
+      margin-top: 10px;
+    }
+    .forgot a {
+      color: #0066cc;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>LAMRIN TECH SKILLS UNIVERSITY , PUNJAB</h2>
+    <!-- Replace "login_process.php" with your backend script -->
+    <form action="login_process.php" method="post">
+      <input type="text" name="username" placeholder="Enter University ID" required>
+      <input type="password" name="password" placeholder="Enter Password" required>
+      <button type="submit">Login</button>
+      <div class="forgot">
+        <a href="#">Forgot Password?</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

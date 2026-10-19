@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add and Remove Paragraph</title>
+</head>
+<body>
+
+    <h2>Add and Remove Paragraph Task </h2>
+
+    <button onclick="addPara()">Add</button>
+    <button onclick="removePara()">Remove</button>
+
+    <div id="content"></div>
+
+    <script>
+        function addPara() {
+            let p = document.createElement("p");
+            p.innerHTML = "This is a paragraph.";
+            document.getElementById("content").appendChild(p);
+        }
+
+        function removePara() {
+            let content = document.getElementById("content");
+            if (content.lastElementChild) {
+                content.removeChild(content.lastElementChild);
+            }
+        }
+    </script>
+
+</body>
+</html>

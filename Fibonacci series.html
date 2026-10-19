@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fibonacci</title>
+</head>
+<body>
+  <h3>Fibonacci Series</h3>
+  <input type="number" id="num" placeholder="Enter terms">
+  <button onclick="showFibonacci()">Generate</button>
+  <p id="result"></p>
+
+  <script>
+    function showFibonacci() {
+      let n = parseInt(document.getElementById("num").value);
+      let a = 0, b = 1;
+      let series = a + " " + b + " ";
+      for (let i = 2; i < n; i++) {   // using for loop
+        let c = a + b;
+        series += c + " ";
+        a = b;
+        b = c;
+      }
+      document.getElementById("result").innerText = "Series: " + series;
+    }
+  </script>
+</body>
+</html>
